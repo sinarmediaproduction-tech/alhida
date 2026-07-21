@@ -21,7 +21,7 @@
       <h1 id="namaMushola">Mushola Kita</h1>
       <div class="alamat" id="alamatMushola"></div>
     </div>
-    <a href="admin.html" class="btn btn-outline" style="text-decoration:none;">Masuk Admin</a>
+    <button class="btn btn-outline" id="btnToggleAdmin">Masuk Admin</button>
   </div>
 
   <div class="hero-saldo">
@@ -55,6 +55,173 @@
     <div id="listDonatur" style="margin-top:8px;"><div class="empty">Memuat data…</div></div>
   </div>
 
+  <!-- ================= LOGIN (muncul saat klik "Masuk Admin") ================= -->
+  <div id="viewLogin" style="display:none;">
+    <div class="motif-divider"></div>
+    <div class="login-box">
+      <div class="eyebrow" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-lembut);font-weight:600;">Admin</div>
+      <h1 style="font-size:24px;margin-top:6px;">Masuk</h1>
+      <div style="margin-top:20px;">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="loginEmail" autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Kata Sandi</label>
+          <input type="password" id="loginPassword" autocomplete="current-password">
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" id="btnLogin">Masuk</button>
+        <div style="margin-top:14px;text-align:center;">
+          <a href="#" id="btnBatalLogin" style="font-size:13px;color:var(--tinta-lembut);">← Batal</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN (setelah login) ================= -->
+  <div id="viewAdmin" style="display:none;">
+    <div class="motif-divider"></div>
+    <div class="admin-topbar">
+      <div>
+        <h1 style="font-size:20px;">Panel Admin</h1>
+        <div class="nama-mushola" id="adminNamaMushola"></div>
+      </div>
+      <button class="btn btn-outline" id="btnLogout">Keluar</button>
+    </div>
+
+    <div class="toggle-group">
+      <button data-tab="transaksi" class="active">Catat Transaksi</button>
+      <button data-tab="donatur">Infaq &amp; Donatur</button>
+      <button data-tab="laporan">Laporan</button>
+      <button data-tab="profil">Profil Mushola</button>
+    </div>
+
+    <!-- TAB: TRANSAKSI -->
+    <div class="tab-panel" data-panel="transaksi">
+      <div class="grid-2">
+        <div class="card">
+          <h2>Tambah Transaksi</h2>
+          <form id="formTransaksi" style="margin-top:14px;">
+            <div class="toggle-group" style="margin-bottom:16px;">
+              <button type="button" data-tipe="pemasukan" class="active">Pemasukan</button>
+              <button type="button" data-tipe="pengeluaran">Pengeluaran</button>
+            </div>
+            <input type="hidden" id="tTipe" value="pemasukan">
+            <div class="field">
+              <label>Tanggal</label>
+              <input type="date" id="tTanggal" required>
+            </div>
+            <div class="field">
+              <label>Kategori</label>
+              <select id="tKategori" required></select>
+            </div>
+            <div class="field">
+              <label>Jumlah (Rp)</label>
+              <input type="number" id="tJumlah" min="0" step="1000" required>
+            </div>
+            <div class="field">
+              <label>Keterangan (opsional)</label>
+              <textarea id="tKeterangan" placeholder="Contoh: beli lampu masjid 4 buah"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Simpan Transaksi</button>
+          </form>
+        </div>
+        <div class="card">
+          <h2>Riwayat Transaksi</h2>
+          <div class="card-sub">30 catatan terakhir · klik hapus untuk membatalkan</div>
+          <div id="listTransaksiAdmin" style="margin-top:8px;"><div class="empty">Memuat…</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: DONATUR -->
+    <div class="tab-panel" data-panel="donatur" style="display:none;">
+      <div class="grid-2">
+        <div class="card">
+          <h2>Catat Infaq / Donasi</h2>
+          <form id="formDonatur" style="margin-top:14px;">
+            <div class="field">
+              <label>Tanggal</label>
+              <input type="date" id="dTanggal" required>
+            </div>
+            <div class="field">
+              <label>Nama Donatur</label>
+              <input type="text" id="dNama" placeholder="Kosongkan jika anonim">
+            </div>
+            <div class="field" style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" id="dAnonim" style="width:auto;">
+              <label style="margin:0;" for="dAnonim">Tampilkan sebagai "Hamba Allah"</label>
+            </div>
+            <div class="field">
+              <label>Jenis</label>
+              <select id="dJenis">
+                <option value="infaq_jumat">Infaq Jumat</option>
+                <option value="infaq_kotak">Infaq Kotak Amal</option>
+                <option value="donasi">Donasi</option>
+                <option value="wakaf">Wakaf</option>
+                <option value="lainnya">Lainnya</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Jumlah (Rp)</label>
+              <input type="number" id="dJumlah" min="0" step="1000" required>
+            </div>
+            <div class="field" style="display:flex;align-items:center;gap:8px;">
+              <input type="checkbox" id="dMasukKas" checked style="width:auto;">
+              <label style="margin:0;" for="dMasukKas">Hitung juga ke total kas (buku besar)</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </form>
+        </div>
+        <div class="card">
+          <h2>Riwayat Infaq &amp; Donasi</h2>
+          <div id="listDonaturAdmin" style="margin-top:8px;"><div class="empty">Memuat…</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: LAPORAN -->
+    <div class="tab-panel" data-panel="laporan" style="display:none;">
+      <div class="card">
+        <h2>Laporan Ringkas</h2>
+        <div class="card-sub">Untuk diumumkan saat Jumat / rapat takmir — bisa disalin langsung</div>
+        <div class="field" style="margin-top:16px;max-width:280px;">
+          <label>Rentang</label>
+          <select id="rentangLaporan">
+            <option value="7">7 hari terakhir</option>
+            <option value="30" selected>30 hari terakhir</option>
+            <option value="90">3 bulan terakhir</option>
+          </select>
+        </div>
+        <button class="btn btn-gold" id="btnBuatLaporan">Buat Laporan</button>
+        <textarea id="hasilLaporan" readonly style="margin-top:16px;min-height:220px;font-family:'IBM Plex Mono',monospace;font-size:13px;white-space:pre-wrap;"></textarea>
+        <button class="btn btn-outline" id="btnSalinLaporan" style="margin-top:10px;">Salin Teks</button>
+      </div>
+    </div>
+
+    <!-- TAB: PROFIL -->
+    <div class="tab-panel" data-panel="profil" style="display:none;">
+      <div class="card" style="max-width:480px;">
+        <h2>Profil Mushola</h2>
+        <form id="formProfil" style="margin-top:14px;">
+          <div class="field">
+            <label>Nama Mushola</label>
+            <input type="text" id="pNama" required>
+          </div>
+          <div class="field">
+            <label>Alamat</label>
+            <input type="text" id="pAlamat">
+          </div>
+          <div class="field">
+            <label>Nama Bendahara</label>
+            <input type="text" id="pBendahara">
+          </div>
+          <button type="submit" class="btn btn-primary">Simpan Profil</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <div class="footer">
     Data diperbarui otomatis secara langsung dari catatan kas takmir.<br>
     <span id="lastUpdate"></span>
@@ -65,6 +232,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/public.js"></script>
+<script src="js/admin.js"></script>
 <script src="js/pwa.js"></script>
 </body>
 </html>

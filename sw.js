@@ -7,10 +7,9 @@
 //    TIDAK di-cache. Data keuangan harus selalu yang terbaru.
 // ============================================================
 
-const CACHE_NAME = 'kas-mushola-v4';
+const CACHE_NAME = 'kas-mushola-v5';
 const APP_SHELL = [
   './index.html',
-  './admin.html',
   './css/style.css',
   './js/supabase-client.js',
   './js/public.js',
