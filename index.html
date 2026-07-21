@@ -79,16 +79,18 @@
     <div id="listDonatur" style="margin-top:8px;"><div class="empty">Memuat data…</div></div>
   </div>
 
-  <!-- ================= ADMIN (setelah login) ================= -->
+  <!-- ================= ADMIN (setelah login) — tampil sebagai modal ================= -->
   <div id="viewAdmin" style="display:none;">
-    <div class="motif-divider"></div>
-    <div class="admin-topbar">
-      <div>
-        <h1 style="font-size:20px;">Panel Admin</h1>
-        <div class="nama-mushola" id="adminNamaMushola"></div>
+    <div class="admin-modal">
+      <button class="admin-modal-close" id="btnCloseAdmin" aria-label="Tutup">✕</button>
+
+      <div class="admin-topbar">
+        <div>
+          <h1 style="font-size:20px;">Panel Admin</h1>
+          <div class="nama-mushola" id="adminNamaMushola"></div>
+        </div>
+        <button class="btn btn-outline" id="btnLogout">Keluar</button>
       </div>
-      <button class="btn btn-outline" id="btnLogout">Keluar</button>
-    </div>
 
     <div class="toggle-group">
       <button data-tab="transaksi" class="active">Catat Transaksi</button>
@@ -220,6 +222,7 @@
           <button type="submit" class="btn btn-primary">Simpan Profil</button>
         </form>
       </div>
+    </div>
     </div>
   </div>
 

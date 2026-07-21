@@ -40,11 +40,17 @@ function initAuthListeners() {
     await supabase.auth.signOut();
     location.reload();
   });
+
+  document.getElementById('btnCloseAdmin').addEventListener('click', () => {
+    document.getElementById('viewAdmin').style.display = 'none';
+    document.body.style.overflow = '';
+  });
 }
 
 async function tampilkanAdmin() {
   document.getElementById('viewLogin').style.display = 'none';
   document.getElementById('viewAdmin').style.display = 'block';
+  document.body.style.overflow = 'hidden';
   document.getElementById('tTanggal').valueAsDate = new Date();
   document.getElementById('dTanggal').valueAsDate = new Date();
   await Promise.all([muatKategoriKeForm(), muatProfilAdmin()]);
