@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Keuangan Mushola</title>
 <meta name="description" content="Transparansi kas dan infaq mushola">
-<meta name="theme-color" content="#123B39">
+<meta name="theme-color" content="#173F36">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -48,19 +48,19 @@
     </div>
   </div>
 
-  <div class="hero-saldo">
-    <div class="label">Saldo Kas Saat Ini</div>
-    <div class="saldo-nilai angka" id="saldoNilai">Rp0</div>
-    <div class="rincian">
-      <div class="item masuk">
-        <div class="k">Total Pemasukan</div>
-        <div class="v angka" id="totalMasuk">Rp0</div>
-      </div>
-      <div class="item keluar">
-        <div class="k">Total Pengeluaran</div>
-        <div class="v angka" id="totalKeluar">Rp0</div>
-      </div>
+  <div class="row-2">
+    <div class="card ringkasan">
+      <div class="k">Total Pemasukan</div>
+      <div class="v angka masuk" id="totalMasuk">Rp0</div>
     </div>
+    <div class="card ringkasan">
+      <div class="k">Total Pengeluaran</div>
+      <div class="v angka keluar" id="totalKeluar">Rp0</div>
+    </div>
+  </div>
+  <div class="card saldo-card">
+    <div class="k">Saldo Kas Saat Ini</div>
+    <div class="v angka" id="saldoNilai">Rp0</div>
   </div>
 
   <div class="motif-divider"></div>

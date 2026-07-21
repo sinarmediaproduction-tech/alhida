@@ -1,25 +1,23 @@
 /* ============================================================
-   DESIGN TOKENS
-   Palet   : kertas hangat #F6F2E9, tinta teal gelap #123B39,
-             emas ukir #B8892B, sage muat #DCE6DD, merah bata redup #A6473B
-   Tipe    : Fraunces (display, ukiran/heading), Plus Jakarta Sans (body),
-             IBM Plex Mono (angka rupiah — nuansa buku kas/ledger)
-   Motif   : bintang segi-8 (rub el hizb) sebagai signature — dipakai
-             tipis sebagai divider & watermark, BUKAN dekorasi berulang.
+   DESIGN TOKENS — selaras dengan "Kas Mushola" (versi sederhana)
+   Palet   : krem kertas #FAF3E8, header hijau tua #173F36,
+             tinta gelap #2A271F, abu lembut #8A8270,
+             hijau pemasukan #2F6B4F, merah pengeluaran #9C3B3B
+   Tipe    : Plus Jakarta Sans (heading & body), JetBrains Mono (angka rupiah)
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
 
 :root {
-  --kertas: #F6F2E9;
-  --kertas-redup: #EDE6D6;
-  --tinta: #123B39;
-  --tinta-lembut: #2E5250;
-  --emas: #B8892B;
-  --emas-terang: #D3A94A;
-  --sage: #DCE6DD;
-  --merah: #A6473B;
-  --garis: rgba(18, 59, 57, 0.14);
-  --bayangan: 0 8px 24px rgba(18, 59, 57, 0.08);
+  --kertas: #FAF3E8;
+  --kertas-redup: #F3EAD9;
+  --hijau-header: #173F36;
+  --tinta: #2A271F;
+  --tinta-lembut: #8A8270;
+  --kartu: #FFFDF8;
+  --garis: #E9DFCD;
+  --hijau: #2F6B4F;
+  --merah: #9C3B3B;
+  --bayangan: 0 8px 24px rgba(23, 63, 54, 0.06);
   --radius: 14px;
 }
 
@@ -35,14 +33,14 @@ body {
 }
 
 h1, h2, h3, .display {
-  font-family: 'Fraunces', serif;
-  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
   letter-spacing: -0.01em;
   margin: 0;
 }
 
 .angka {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-variant-numeric: tabular-nums;
 }
 
@@ -50,18 +48,17 @@ a { color: inherit; }
 
 /* --- Layout shell --- */
 .shell {
-  max-width: 960px;
+  max-width: 640px;
   margin: 0 auto;
   padding: 0 20px 64px;
 }
 
-/* --- Signature motif: bintang segi-8 sebagai divider tipis --- */
+/* --- Signature divider: garis polos, tanpa motif --- */
 .motif-divider {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin: 36px 0 24px;
-  opacity: 0.85;
+  margin: 28px 0 22px;
 }
 .motif-divider::before,
 .motif-divider::after {
@@ -70,16 +67,15 @@ a { color: inherit; }
   height: 1px;
   background: var(--garis);
 }
-.motif-star {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  color: var(--emas);
-}
+.motif-star { display: none; }
 
-/* --- Header --- */
+/* --- Header (app bar hijau, full-bleed) --- */
 .header {
-  padding: 40px 0 8px;
+  background: var(--hijau-header);
+  color: var(--kertas);
+  margin: 0 -20px;
+  padding: 22px 20px;
+  border-radius: 0 0 16px 16px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -90,63 +86,52 @@ a { color: inherit; }
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--tinta-lembut);
+  color: rgba(250, 243, 232, 0.65);
   font-weight: 600;
 }
 .header h1 {
-  font-size: clamp(28px, 4vw, 38px);
+  font-size: clamp(20px, 4vw, 26px);
   margin-top: 4px;
+  color: var(--kertas);
 }
 .header .alamat {
-  color: var(--tinta-lembut);
-  font-size: 14px;
-  margin-top: 6px;
-}
-
-/* --- Hero saldo (the thesis: angka saldo kas paling besar) --- */
-.hero-saldo {
-  background: var(--tinta);
-  color: var(--kertas);
-  border-radius: var(--radius);
-  padding: 32px 28px;
-  margin-top: 24px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--bayangan);
-}
-.hero-saldo::after {
-  content: '';
-  position: absolute;
-  right: -40px;
-  top: -40px;
-  width: 220px;
-  height: 220px;
-  background: radial-gradient(circle, rgba(211,169,74,0.18) 0%, transparent 70%);
-}
-.hero-saldo .label {
+  color: rgba(250, 243, 232, 0.7);
   font-size: 13px;
-  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+.header .btn-outline {
+  border-color: rgba(250, 243, 232, 0.4);
+  color: var(--kertas);
+}
+.header .btn-outline:hover { background: rgba(250, 243, 232, 0.12); }
+
+/* --- Ringkasan saldo: dua kartu + satu kartu saldo penuh --- */
+.row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 20px;
+}
+@media (max-width: 420px) { .row-2 { grid-template-columns: 1fr; } }
+
+.card.ringkasan .k,
+.card.saldo-card .k {
+  font-size: 12px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--emas-terang);
+  color: var(--tinta-lembut);
   font-weight: 600;
 }
-.hero-saldo .saldo-nilai {
-  font-size: clamp(36px, 6vw, 56px);
-  font-weight: 600;
-  margin-top: 6px;
-  position: relative;
+.card.ringkasan .v,
+.card.saldo-card .v {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 22px;
+  margin-top: 8px;
 }
-.hero-saldo .rincian {
-  display: flex;
-  gap: 28px;
-  margin-top: 18px;
-  flex-wrap: wrap;
-  position: relative;
-}
-.hero-saldo .rincian .item .k { font-size: 12px; color: rgba(246,242,233,0.65); }
-.hero-saldo .rincian .item .v { font-size: 18px; font-weight: 600; margin-top: 2px; }
-.rincian .item.masuk .v { color: #8FCBAE; }
-.rincian .item.keluar .v { color: #E29188; }
+.card.ringkasan .v.masuk { color: var(--hijau); }
+.card.ringkasan .v.keluar { color: var(--merah); }
+.card.saldo-card { margin-top: 14px; }
 
 /* --- Cards --- */
 .grid-2 {
@@ -158,16 +143,16 @@ a { color: inherit; }
 @media (max-width: 760px) { .grid-2 { grid-template-columns: 1fr; } }
 
 .card {
-  background: #fff;
+  background: var(--kartu);
   border: 1px solid var(--garis);
   border-radius: var(--radius);
-  padding: 22px;
+  padding: 20px 22px;
 }
 .card h2 {
-  font-size: 18px;
+  font-size: 15px;
 }
 .card .card-sub {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--tinta-lembut);
   margin-top: 2px;
 }
@@ -178,14 +163,14 @@ a { color: inherit; }
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px dashed var(--garis);
+  border-bottom: 1px solid var(--garis);
   gap: 12px;
 }
 .list-item:last-child { border-bottom: none; }
-.list-item .kiri .nama { font-weight: 600; font-size: 14.5px; }
+.list-item .kiri .nama { font-weight: 600; font-size: 14px; }
 .list-item .kiri .meta { font-size: 12.5px; color: var(--tinta-lembut); margin-top: 2px; }
-.list-item .kanan { font-weight: 600; font-size: 14.5px; white-space: nowrap; }
-.list-item .kanan.masuk { color: #1E7A54; }
+.list-item .kanan { font-weight: 700; font-size: 14px; white-space: nowrap; font-family: 'JetBrains Mono', monospace; }
+.list-item .kanan.masuk { color: var(--hijau); }
 .list-item .kanan.keluar { color: var(--merah); }
 
 .tag {
@@ -193,7 +178,7 @@ a { color: inherit; }
   font-size: 11px;
   padding: 2px 8px;
   border-radius: 999px;
-  background: var(--sage);
+  background: var(--kertas-redup);
   color: var(--tinta-lembut);
   font-weight: 600;
 }
@@ -201,14 +186,15 @@ a { color: inherit; }
 /* --- Empty state --- */
 .empty {
   text-align: center;
-  padding: 32px 12px;
+  padding: 26px 12px;
   color: var(--tinta-lembut);
-  font-size: 14px;
+  font-size: 13.5px;
+  font-style: italic;
 }
 
 /* --- Footer --- */
 .footer {
-  margin-top: 48px;
+  margin-top: 40px;
   text-align: center;
   font-size: 12.5px;
   color: var(--tinta-lembut);
@@ -216,31 +202,31 @@ a { color: inherit; }
 .footer a { text-decoration: underline; }
 
 /* --- Forms (admin) --- */
-.field { margin-bottom: 16px; }
+.field { margin-bottom: 14px; }
 .field label {
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
   color: var(--tinta-lembut);
 }
 .field input,
 .field select,
 .field textarea {
   width: 100%;
-  padding: 10px 12px;
+  padding: 9px 11px;
   border: 1px solid var(--garis);
-  border-radius: 10px;
+  border-radius: 8px;
   font-family: inherit;
-  font-size: 14.5px;
-  background: var(--kertas);
+  font-size: 14px;
+  background: #fff;
   color: var(--tinta);
 }
 .field textarea { resize: vertical; min-height: 60px; }
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  outline: 2px solid var(--emas-terang);
+  outline: 2px solid var(--hijau-header);
   outline-offset: 1px;
 }
 
@@ -248,58 +234,67 @@ a { color: inherit; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 11px 20px;
-  border-radius: 10px;
+  padding: 10px 18px;
+  border-radius: 8px;
   border: none;
   font-family: inherit;
-  font-weight: 600;
-  font-size: 14.5px;
+  font-weight: 700;
+  font-size: 14px;
   cursor: pointer;
-  transition: transform 0.08s ease, opacity 0.15s ease;
+  transition: opacity 0.15s ease;
 }
-.btn:active { transform: scale(0.98); }
-.btn-primary { background: var(--tinta); color: var(--kertas); }
-.btn-primary:hover { background: var(--tinta-lembut); }
-.btn-gold { background: var(--emas); color: #fff; }
-.btn-gold:hover { background: var(--emas-terang); }
+.btn:active { opacity: 0.85; }
+.btn-primary { background: var(--hijau-header); color: var(--kertas); }
+.btn-primary:hover { opacity: 0.92; }
+.btn-gold { background: var(--tinta); color: var(--kertas); }
+.btn-gold:hover { opacity: 0.92; }
 .btn-outline { background: transparent; border: 1px solid var(--garis); color: var(--tinta); }
-.btn-outline:hover { background: var(--sage); }
-.btn-danger { background: transparent; color: var(--merah); border: 1px solid rgba(166,71,59,0.3); }
-.btn-danger:hover { background: rgba(166,71,59,0.08); }
+.btn-outline:hover { background: var(--kertas-redup); }
+.btn-danger { background: transparent; color: var(--merah); border: 1px solid #e6c9c2; }
+.btn-danger:hover { background: rgba(156, 59, 59, 0.08); }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .toggle-group { display: flex; gap: 8px; }
 .toggle-group button {
   flex: 1;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 9px;
+  border-radius: 8px;
   border: 1px solid var(--garis);
   background: #fff;
   font-family: inherit;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 13px;
   cursor: pointer;
   color: var(--tinta-lembut);
 }
 .toggle-group button.active {
-  background: var(--tinta);
-  border-color: var(--tinta);
+  background: var(--hijau-header);
+  border-color: var(--hijau-header);
   color: var(--kertas);
+}
+.toggle-group button[data-tipe="pemasukan"].active {
+  background: var(--hijau);
+  border-color: var(--hijau);
+}
+.toggle-group button[data-tipe="pengeluaran"].active {
+  background: var(--merah);
+  border-color: var(--merah);
 }
 
 .tabel-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--garis); }
-th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--tinta-lembut); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--garis); }
+th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--tinta-lembut); background: var(--kertas-redup); }
 
 .toast {
   position: fixed;
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--tinta);
+  background: var(--hijau-header);
   color: var(--kertas);
   padding: 12px 20px;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   box-shadow: var(--bayangan);
@@ -313,24 +308,22 @@ th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: 
 }
 
 .login-box {
-  max-width: 380px;
-  margin: 12vh auto 0;
-  background: #fff;
+  max-width: 320px;
+  background: var(--kartu);
   border: 1px solid var(--garis);
   border-radius: var(--radius);
-  padding: 32px 28px;
-  box-shadow: var(--bayangan);
+  padding: 24px 22px;
 }
 
 .admin-topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 0;
+  padding: 16px 0;
   border-bottom: 1px solid var(--garis);
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
-.admin-topbar .nama-mushola { font-size: 14px; color: var(--tinta-lembut); }
+.admin-topbar .nama-mushola { font-size: 13px; color: var(--tinta-lembut); }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
