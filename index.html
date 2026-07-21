@@ -15,13 +15,37 @@
 
 <div class="shell">
 
-  <div class="header">
+  <div class="header" style="position:relative;">
     <div>
       <div class="eyebrow">Transparansi Keuangan</div>
       <h1 id="namaMushola">Mushola Kita</h1>
       <div class="alamat" id="alamatMushola"></div>
     </div>
-    <button class="btn btn-outline" id="btnToggleAdmin">Masuk Admin</button>
+    <div style="position:relative;">
+      <button class="btn btn-outline" id="btnToggleAdmin">Masuk Admin</button>
+
+      <!-- ================= LOGIN (dropdown nempel di tombol) ================= -->
+      <div id="viewLogin" style="display:none;position:absolute;top:calc(100% + 10px);right:0;z-index:50;width:280px;max-width:calc(100vw - 40px);">
+        <div class="login-box" style="box-shadow:var(--bayangan);border-radius:var(--radius);">
+          <div class="eyebrow" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-lembut);font-weight:600;">Admin</div>
+          <h1 style="font-size:20px;margin-top:6px;">Masuk</h1>
+          <div style="margin-top:16px;">
+            <div class="field">
+              <label>Email</label>
+              <input type="email" id="loginEmail" autocomplete="username">
+            </div>
+            <div class="field">
+              <label>Kata Sandi</label>
+              <input type="password" id="loginPassword" autocomplete="current-password">
+            </div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center;" id="btnLogin">Masuk</button>
+            <div style="margin-top:12px;text-align:center;">
+              <a href="#" id="btnBatalLogin" style="font-size:13px;color:var(--tinta-lembut);">← Batal</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="hero-saldo">
@@ -53,29 +77,6 @@
     <h2>Papan Infaq & Donasi</h2>
     <div class="card-sub">Terima kasih atas kepercayaan jamaah</div>
     <div id="listDonatur" style="margin-top:8px;"><div class="empty">Memuat data…</div></div>
-  </div>
-
-  <!-- ================= LOGIN (muncul saat klik "Masuk Admin") ================= -->
-  <div id="viewLogin" style="display:none;">
-    <div class="motif-divider"></div>
-    <div class="login-box">
-      <div class="eyebrow" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta-lembut);font-weight:600;">Admin</div>
-      <h1 style="font-size:24px;margin-top:6px;">Masuk</h1>
-      <div style="margin-top:20px;">
-        <div class="field">
-          <label>Email</label>
-          <input type="email" id="loginEmail" autocomplete="username">
-        </div>
-        <div class="field">
-          <label>Kata Sandi</label>
-          <input type="password" id="loginPassword" autocomplete="current-password">
-        </div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center;" id="btnLogin">Masuk</button>
-        <div style="margin-top:14px;text-align:center;">
-          <a href="#" id="btnBatalLogin" style="font-size:13px;color:var(--tinta-lembut);">← Batal</a>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- ================= ADMIN (setelah login) ================= -->
