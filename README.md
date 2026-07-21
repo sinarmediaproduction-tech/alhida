@@ -32,7 +32,26 @@
   untuk pengumuman Jumat/rapat takmir, bukan PDF — kalau nanti perlu versi
   PDF-nya tinggal bilang.
 
-## Belum ada di versi ini (bisa ditambah kalau perlu)
+## PWA (Progressive Web App)
+
+Aplikasi ini sudah bisa dipasang (install) ke layar utama HP/laptop:
+
+- `manifest.json` — nama, ikon, warna tema
+- `sw.js` — service worker: app shell (html/css/js/ikon) di-cache biar tetap
+  kebuka meski koneksi lemot; data Supabase & library CDN **tidak** di-cache,
+  selalu diambil langsung supaya angka kas selalu yang terbaru
+- `js/pwa.js` — daftarin service worker + tombol "Pasang" muncul otomatis
+  kalau browser mendukung (Chrome/Edge Android & desktop; Safari iOS pakai
+  "Tambahkan ke Layar Utama" dari menu Share, tidak ada banner otomatis)
+- `icons/` — ikon 192/512/512-maskable/apple-touch-icon, motif bintang
+  segi-8 emas di atas latar teal, sama seperti identitas dashboard
+
+**Penting:** Service worker cuma aktif di HTTPS (atau `localhost` saat
+development). GitHub Pages otomatis HTTPS, jadi begitu di-deploy langsung
+jalan. Kalau dites dari `file://` langsung, service worker tidak akan aktif
+— pakai `python3 -m http.server` atau sejenisnya untuk tes lokal.
+
+
 - UI kelola kategori (saat ini via SQL)
 - Multi-user/role (baru single admin)
 - Export PDF laporan
