@@ -7,7 +7,7 @@
 //    TIDAK di-cache. Data keuangan harus selalu yang terbaru.
 // ============================================================
 
-const CACHE_NAME = 'kas-mushola-v1';
+const CACHE_NAME = 'kas-mushola-v2';
 const APP_SHELL = [
   './index.html',
   './admin.html',
