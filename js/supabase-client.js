@@ -3,8 +3,8 @@
 // Ganti dua nilai di bawah dengan punya proyek Supabase kamu.
 // Ambil dari: Project Settings > API
 // ============================================================
-const SUPABASE_URL = 'https://xxxxxxxxxxxx.supabase.co';
-const SUPABASE_ANON_KEY = 'PASTE_ANON_PUBLIC_KEY_DI_SINI';
+const SUPABASE_URL = 'https://neciaqiobajadyrkybfz.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5lY2lhcWlvYmFqYWR5cmt5YmZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5ODgyMTcsImV4cCI6MjA5NzU2NDIxN30.MECkNuEoBZ0dkjEaZA7Fj_eIWJZDMKTP7gM9eDLRQhs';
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
