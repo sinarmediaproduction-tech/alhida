@@ -7,7 +7,7 @@
 //    TIDAK di-cache. Data keuangan harus selalu yang terbaru.
 // ============================================================
 
-const CACHE_NAME = 'kas-mushola-v3';
+const CACHE_NAME = 'kas-mushola-v4';
 const APP_SHELL = [
   './index.html',
   './admin.html',
@@ -47,7 +47,7 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
-      const fetchPromise = fetch(event.request)
+      const fetchPromise = fetch(event.request, { redirect: 'follow' })
         .then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             const clone = networkResponse.clone();
