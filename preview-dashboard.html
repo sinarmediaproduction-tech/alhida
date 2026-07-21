@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview — Dashboard Keuangan Mushola</title>
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   Palet   : kertas hangat #F6F2E9, tinta teal gelap #123B39,
+             emas ukir #B8892B, sage muat #DCE6DD, merah bata redup #A6473B
+   Tipe    : Fraunces (display, ukiran/heading), Plus Jakarta Sans (body),
+             IBM Plex Mono (angka rupiah — nuansa buku kas/ledger)
+   Motif   : bintang segi-8 (rub el hizb) sebagai signature — dipakai
+             tipis sebagai divider & watermark, BUKAN dekorasi berulang.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --kertas: #F6F2E9;
+  --kertas-redup: #EDE6D6;
+  --tinta: #123B39;
+  --tinta-lembut: #2E5250;
+  --emas: #B8892B;
+  --emas-terang: #D3A94A;
+  --sage: #DCE6DD;
+  --merah: #A6473B;
+  --garis: rgba(18, 59, 57, 0.14);
+  --bayangan: 0 8px 24px rgba(18, 59, 57, 0.08);
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--kertas);
+  color: var(--tinta);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .display {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.angka {
+  font-family: 'IBM Plex Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+a { color: inherit; }
+
+/* --- Layout shell --- */
+.shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px 64px;
+}
+
+/* --- Signature motif: bintang segi-8 sebagai divider tipis --- */
+.motif-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 36px 0 24px;
+  opacity: 0.85;
+}
+.motif-divider::before,
+.motif-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--garis);
+}
+.motif-star {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--emas);
+}
+
+/* --- Header --- */
+.header {
+  padding: 40px 0 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.header .eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tinta-lembut);
+  font-weight: 600;
+}
+.header h1 {
+  font-size: clamp(28px, 4vw, 38px);
+  margin-top: 4px;
+}
+.header .alamat {
+  color: var(--tinta-lembut);
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* --- Hero saldo (the thesis: angka saldo kas paling besar) --- */
+.hero-saldo {
+  background: var(--tinta);
+  color: var(--kertas);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  margin-top: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--bayangan);
+}
+.hero-saldo::after {
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(211,169,74,0.18) 0%, transparent 70%);
+}
+.hero-saldo .label {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--emas-terang);
+  font-weight: 600;
+}
+.hero-saldo .saldo-nilai {
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 600;
+  margin-top: 6px;
+  position: relative;
+}
+.hero-saldo .rincian {
+  display: flex;
+  gap: 28px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+  position: relative;
+}
+.hero-saldo .rincian .item .k { font-size: 12px; color: rgba(246,242,233,0.65); }
+.hero-saldo .rincian .item .v { font-size: 18px; font-weight: 600; margin-top: 2px; }
+.rincian .item.masuk .v { color: #8FCBAE; }
+.rincian .item.keluar .v { color: #E29188; }
+
+/* --- Cards --- */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+@media (max-width: 760px) { .grid-2 { grid-template-columns: 1fr; } }
+
+.card {
+  background: #fff;
+  border: 1px solid var(--garis);
+  border-radius: var(--radius);
+  padding: 22px;
+}
+.card h2 {
+  font-size: 18px;
+}
+.card .card-sub {
+  font-size: 13px;
+  color: var(--tinta-lembut);
+  margin-top: 2px;
+}
+
+/* --- List item transaksi/donatur --- */
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--garis);
+  gap: 12px;
+}
+.list-item:last-child { border-bottom: none; }
+.list-item .kiri .nama { font-weight: 600; font-size: 14.5px; }
+.list-item .kiri .meta { font-size: 12.5px; color: var(--tinta-lembut); margin-top: 2px; }
+.list-item .kanan { font-weight: 600; font-size: 14.5px; white-space: nowrap; }
+.list-item .kanan.masuk { color: #1E7A54; }
+.list-item .kanan.keluar { color: var(--merah); }
+
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--sage);
+  color: var(--tinta-lembut);
+  font-weight: 600;
+}
+
+/* --- Empty state --- */
+.empty {
+  text-align: center;
+  padding: 32px 12px;
+  color: var(--tinta-lembut);
+  font-size: 14px;
+}
+
+/* --- Footer --- */
+.footer {
+  margin-top: 48px;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--tinta-lembut);
+}
+.footer a { text-decoration: underline; }
+
+/* --- Forms (admin) --- */
+.field { margin-bottom: 16px; }
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--tinta-lembut);
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--garis);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14.5px;
+  background: var(--kertas);
+  color: var(--tinta);
+}
+.field textarea { resize: vertical; min-height: 60px; }
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: 2px solid var(--emas-terang);
+  outline-offset: 1px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 10px;
+  border: none;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14.5px;
+  cursor: pointer;
+  transition: transform 0.08s ease, opacity 0.15s ease;
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(--tinta); color: var(--kertas); }
+.btn-primary:hover { background: var(--tinta-lembut); }
+.btn-gold { background: var(--emas); color: #fff; }
+.btn-gold:hover { background: var(--emas-terang); }
+.btn-outline { background: transparent; border: 1px solid var(--garis); color: var(--tinta); }
+.btn-outline:hover { background: var(--sage); }
+.btn-danger { background: transparent; color: var(--merah); border: 1px solid rgba(166,71,59,0.3); }
+.btn-danger:hover { background: rgba(166,71,59,0.08); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.toggle-group { display: flex; gap: 8px; }
+.toggle-group button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--garis);
+  background: #fff;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--tinta-lembut);
+}
+.toggle-group button.active {
+  background: var(--tinta);
+  border-color: var(--tinta);
+  color: var(--kertas);
+}
+
+.tabel-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--garis); }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--tinta-lembut); }
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--tinta);
+  color: var(--kertas);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--bayangan);
+  z-index: 100;
+  animation: toast-in 0.2s ease;
+}
+.toast.error { background: var(--merah); }
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.login-box {
+  max-width: 380px;
+  margin: 12vh auto 0;
+  background: #fff;
+  border: 1px solid var(--garis);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  box-shadow: var(--bayangan);
+}
+
+.admin-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--garis);
+  margin-bottom: 24px;
+}
+.admin-topbar .nama-mushola { font-size: 14px; color: var(--tinta-lembut); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+
+/* --- badge khusus preview --- */
+.preview-badge {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  background: var(--emas);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 6px 12px;
+  border-radius: 999px;
+  z-index: 50;
+  box-shadow: var(--bayangan);
+}
+</style>
+</head>
+<body>
+<div class="preview-badge">PREVIEW · DATA CONTOH</div>
+
+<div class="shell">
+
+  <div class="header">
+    <div>
+      <div class="eyebrow">Transparansi Keuangan</div>
+      <h1>Mushola Al-Ikhlas</h1>
+      <div class="alamat">Jl. Merdeka No. 12, Ponorogo</div>
+    </div>
+    <a href="#" class="btn btn-outline" style="text-decoration:none;">Masuk Admin</a>
+  </div>
+
+  <div class="hero-saldo">
+    <div class="label">Saldo Kas Saat Ini</div>
+    <div class="saldo-nilai angka">Rp8.420.000</div>
+    <div class="rincian">
+      <div class="item masuk">
+        <div class="k">Total Pemasukan</div>
+        <div class="v angka">Rp12.850.000</div>
+      </div>
+      <div class="item keluar">
+        <div class="k">Total Pengeluaran</div>
+        <div class="v angka">Rp4.430.000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="motif-divider">
+    <svg class="motif-star" viewBox="0 0 24 24" fill="currentColor"><g><rect x="10.5" y="0" width="3" height="24" rx="0.5"/><rect x="10.5" y="0" width="3" height="24" rx="0.5" transform="rotate(45 12 12)"/><rect x="10.5" y="0" width="3" height="24" rx="0.5" transform="rotate(90 12 12)"/><rect x="10.5" y="0" width="3" height="24" rx="0.5" transform="rotate(135 12 12)"/></g></svg>
+  </div>
+
+  <div class="card">
+    <h2>Transaksi Terbaru</h2>
+    <div class="card-sub">Catatan kas masuk & keluar</div>
+    <div id="listTransaksi">
+        <div class="list-item">
+          <div class="kiri"><div class="nama">Infaq Jumat</div><div class="meta">18 Juli 2026</div></div>
+          <div class="kanan masuk">+ Rp1.240.000</div>
+        </div>
+        <div class="list-item">
+          <div class="kiri"><div class="nama">Listrik</div><div class="meta">15 Juli 2026 · Tagihan bulan Juli</div></div>
+          <div class="kanan keluar">&minus; Rp385.000</div>
+        </div>
+        <div class="list-item">
+          <div class="kiri"><div class="nama">Kebersihan</div><div class="meta">14 Juli 2026 · Upah petugas mingguan</div></div>
+          <div class="kanan keluar">&minus; Rp150.000</div>
+        </div>
+        <div class="list-item">
+          <div class="kiri"><div class="nama">Infaq Kotak Amal</div><div class="meta">11 Juli 2026</div></div>
+          <div class="kanan masuk">+ Rp620.000</div>
+        </div>
+        <div class="list-item">
+          <div class="kiri"><div class="nama">Perlengkapan Ibadah</div><div class="meta">9 Juli 2026 · Sajadah 5 buah</div></div>
+          <div class="kanan keluar">&minus; Rp475.000</div>
+        </div>
+      </div>
+  </div>
+
+  <div class="motif-divider">
+    <svg class="motif-star" viewBox="0 0 24 24" fill="currentColor"><g><rect x="10.5" y="0" width="3" height="24" rx="0.5"/><rect x="10.5" y="0" width="3" height="24" rx="0.5" transform="rotate(45 12 12)"/><rect x="10.5" y="0" width="3" height="24" rx="0.5" transform="rotate(90 12 12)"/><rect x="10.5" y="0" width="3" height="24" rx="0.5" transform="rotate(135 12 12)"/></g></svg>
+  </div>
+
+  <div class="card">
+    <h2>Papan Infaq &amp; Donasi</h2>
+    <div class="card-sub">Terima kasih atas kepercayaan jamaah</div>
+    <div style="margin-top:8px;">
+      <div class="list-item">
+        <div class="kiri"><div class="nama">Hamba Allah</div><div class="meta">18 Juli 2026 · <span class="tag">Infaq Jumat</span></div></div>
+        <div class="kanan masuk">+ Rp1.240.000</div>
+      </div>
+      <div class="list-item">
+        <div class="kiri"><div class="nama">Bpk. Suryanto</div><div class="meta">16 Juli 2026 · <span class="tag">Wakaf</span></div></div>
+        <div class="kanan masuk">+ Rp2.000.000</div>
+      </div>
+      <div class="list-item">
+        <div class="kiri"><div class="nama">Hamba Allah</div><div class="meta">11 Juli 2026 · <span class="tag">Infaq Kotak Amal</span></div></div>
+        <div class="kanan masuk">+ Rp620.000</div>
+      </div>
+      <div class="list-item">
+        <div class="kiri"><div class="nama">Ibu Herlina</div><div class="meta">5 Juli 2026 · <span class="tag">Donasi</span></div></div>
+        <div class="kanan masuk">+ Rp350.000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Data diperbarui otomatis secara langsung dari catatan kas takmir.<br>
+    <span>Terakhir dimuat: 21 Juli 2026, 10.05</span>
+  </div>
+
+</div>
+
+</body>
+</html>

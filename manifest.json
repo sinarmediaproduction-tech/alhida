@@ -1,0 +1,10 @@
+{
+  "name": "Dashboard Keuangan Mushola",
+  "short_name": "Kas Mushola",
+  "description": "Transparansi kas dan infaq mushola",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#F6F2E9",
+  "theme_color": "#123B39",
+  "icons": []
+}

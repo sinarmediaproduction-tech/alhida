@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Keuangan Mushola</title>
+<meta name="description" content="Transparansi kas dan infaq mushola">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="shell">
+
+  <div class="header">
+    <div>
+      <div class="eyebrow">Transparansi Keuangan</div>
+      <h1 id="namaMushola">Mushola Kita</h1>
+      <div class="alamat" id="alamatMushola"></div>
+    </div>
+    <a href="admin.html" class="btn btn-outline" style="text-decoration:none;">Masuk Admin</a>
+  </div>
+
+  <div class="hero-saldo">
+    <div class="label">Saldo Kas Saat Ini</div>
+    <div class="saldo-nilai angka" id="saldoNilai">Rp0</div>
+    <div class="rincian">
+      <div class="item masuk">
+        <div class="k">Total Pemasukan</div>
+        <div class="v angka" id="totalMasuk">Rp0</div>
+      </div>
+      <div class="item keluar">
+        <div class="k">Total Pengeluaran</div>
+        <div class="v angka" id="totalKeluar">Rp0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="motif-divider"></div>
+
+  <div class="card">
+    <h2>Transaksi Terbaru</h2>
+    <div class="card-sub">Catatan kas masuk & keluar</div>
+    <div id="listTransaksi"><div class="empty">Memuat data…</div></div>
+  </div>
+
+  <div class="motif-divider"></div>
+
+  <div class="card">
+    <h2>Papan Infaq & Donasi</h2>
+    <div class="card-sub">Terima kasih atas kepercayaan jamaah</div>
+    <div id="listDonatur" style="margin-top:8px;"><div class="empty">Memuat data…</div></div>
+  </div>
+
+  <div class="footer">
+    Data diperbarui otomatis secara langsung dari catatan kas takmir.<br>
+    <span id="lastUpdate"></span>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/public.js"></script>
+</body>
+</html>
