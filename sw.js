@@ -55,7 +55,10 @@ self.addEventListener('fetch', (event) => {
           }
           return networkResponse;
         })
-        .catch(() => cached); // offline & tidak ada di cache -> gagal senyap
+        .catch(() => cached || new Response(
+          'Sedang offline dan halaman ini belum tersimpan di cache.',
+          { status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8' } }
+        ));
 
       // Cache-first: langsung balikin versi cache kalau ada, sambil
       // diam-diam update cache di background dari network.
